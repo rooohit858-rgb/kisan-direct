@@ -13,23 +13,25 @@ export default function MobilePage() {
     e.preventDefault()
     setLoading(true)
 
-    const cleanPhone = phone.trim()
+    const cleanPhone = phone.replace(/\D/g, "")
+    const formattedPhone = `+91${cleanPhone}`
+
+    // 1. Phone number LocalStorage me save karein (har haal me)
     localStorage.setItem('userPhone', cleanPhone)
 
+    // 2. Supabase Request try karein
     try {
-      // 1. Try real Supabase OTP send
       const { error } = await supabase.auth.signInWithOtp({
-        phone: `+91${cleanPhone}`,
+        phone: formattedPhone,
       })
-
       if (error) {
-        console.warn("Supabase Auth error (falling back to dev mode):", error.message)
+        console.warn('Supabase SMS Provider Notice:', error.message)
       }
     } catch (err) {
-      console.warn("Supabase call failed, continuing to OTP step:", err)
+      console.warn('Network / Auth Bypass:', err)
     }
 
-    // 2. Continuous Flow: OTP request fail ho ya pass, test flow ke liye user ko /otp par bhej do
+    // 3. Request fail ho ya pass, test flow ko rukaawat nahi honi chahiye
     setLoading(false)
     router.push('/otp')
   }
