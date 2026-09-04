@@ -101,7 +101,7 @@ export const Header: React.FC<HeaderProps> = ({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold text-xl tracking-tight bg-gradient-to-r from-emerald-800 via-green-700 to-amber-600 bg-clip-text text-transparent">
-                    KisanDirect
+                    Khetseghar
                   </span>
                   <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 border border-emerald-300">
                     किसान सेतु
