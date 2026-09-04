@@ -1,0 +1,1 @@
+export { coldStorageVehicles } from "./historicalPricing";
