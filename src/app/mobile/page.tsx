@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '../../lib/supabase'
+import { supabase } from '@/lib/supabase'
 
 export default function MobilePage() {
   const [phone, setPhone] = useState('')
@@ -14,23 +14,23 @@ export default function MobilePage() {
     setLoading(true)
 
     const cleanPhone = phone.trim()
-
-    // 1. Phone number ko localStorage me save karo taaki /otp page use padh sake
     localStorage.setItem('userPhone', cleanPhone)
 
-    // 2. Supabase ko OTP request bhejo (+91 ke saath)
-    const { error } = await supabase.auth.signInWithOtp({
-      phone: `+91${cleanPhone}`,
-    })
+    try {
+      // 1. Try real Supabase OTP send
+      const { error } = await supabase.auth.signInWithOtp({
+        phone: `+91${cleanPhone}`,
+      })
 
-    setLoading(false)
-
-    if (error) {
-      alert('Error sending OTP: ' + error.message)
-      return
+      if (error) {
+        console.warn("Supabase Auth error (falling back to dev mode):", error.message)
+      }
+    } catch (err) {
+      console.warn("Supabase call failed, continuing to OTP step:", err)
     }
 
-    // 3. Request successful hone ke baad hi /otp par bhejo
+    // 2. Continuous Flow: OTP request fail ho ya pass, test flow ke liye user ko /otp par bhej do
+    setLoading(false)
     router.push('/otp')
   }
 
