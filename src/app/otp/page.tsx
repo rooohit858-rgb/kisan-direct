@@ -19,20 +19,14 @@ export default function OtpPage() {
     e.preventDefault();
     setLoading(true);
 
-    // 1. Test OTP Fallback (Development Check)
-    if (otp.trim() === "696969") {
-      setLoading(false);
-      router.push("/register");
-      return;
-    }
-
-    // 2. Real Verification Attempt
+    // Mobile number cleanup (+91 E.164 format guarantee)
     let cleanNumber = phone.replace(/\D/g, "");
     if (cleanNumber.startsWith("91") && cleanNumber.length === 12) {
       cleanNumber = cleanNumber.substring(2);
     }
     const formattedPhone = `+91${cleanNumber}`;
 
+    // Supabase Auth call (Dashboard test numbers ke individual OTPs check karega)
     const { data, error } = await supabase.auth.verifyOtp({
       phone: formattedPhone,
       token: otp.trim(),
@@ -42,7 +36,7 @@ export default function OtpPage() {
     setLoading(false);
 
     if (error) {
-      alert(`Invalid OTP! Please use test OTP: 696969`);
+      alert(`Invalid OTP: ${error.message}`);
       return;
     }
 
