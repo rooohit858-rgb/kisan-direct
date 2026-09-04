@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import "./style.css";
+import './globals.css'
+import './style.css' // Agar style.css src/app/ folder me rakhi hai
+
 
 export const metadata: Metadata = {
   title: "Khetseghar | Direct Farm-to-Consumer Agri Marketplace (SIH26033)",
