@@ -24,7 +24,7 @@ export default function OtpPage() {
     // 1. DEV / TESTING MODE (Gateway na hone par 696969 direct pass karega)
     if (process.env.NEXT_PUBLIC_DEV_MODE === "true" || cleanOtp === "696969") {
       setLoading(false);
-      router.push("/register");
+      router.push("/role");
       return;
     }
 
@@ -48,7 +48,7 @@ export default function OtpPage() {
     }
 
     if (data?.session || data?.user) {
-      router.push("/role");
+      router.push("/register");
     }
   };
 
