@@ -48,7 +48,7 @@ export default function OtpPage() {
     }
 
     if (data?.session || data?.user) {
-      router.push("/register");
+      router.push("/role");
     }
   };
 
